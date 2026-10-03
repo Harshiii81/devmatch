@@ -1,0 +1,45 @@
+<%- include('../partials/header') %>
+
+<section class="form-section">
+  <h2>Edit Your Profile</h2>
+
+  <% if (error) { %>
+    <p class="error-msg"><%= error %></p>
+  <% } %>
+
+  <form action="/profile/edit" method="POST">
+    <label>Name</label>
+    <input type="text" name="name" value="<%= user.name %>" required>
+
+    <label>Experience Level</label>
+    <select name="experienceLevel">
+      <option value="Beginner" <%= user.experience_level === 'Beginner' ? 'selected' : '' %>>Beginner</option>
+      <option value="Intermediate" <%= user.experience_level === 'Intermediate' ? 'selected' : '' %>>Intermediate</option>
+      <option value="Advanced" <%= user.experience_level === 'Advanced' ? 'selected' : '' %>>Advanced</option>
+    </select>
+
+    <label>Bio</label>
+    <textarea name="bio"><%= user.bio || '' %></textarea>
+
+    <label>Skills (comma-separated)</label>
+    <input type="text" name="skills" value="<%= user.skills || '' %>">
+
+    <label>Interests</label>
+    <input type="text" name="interests" value="<%= user.interests || '' %>">
+
+    <label>Availability</label>
+    <input type="text" name="availability" value="<%= user.availability || '' %>">
+
+    <label>GitHub URL</label>
+    <input type="url" name="githubUrl" value="<%= user.github_url || '' %>">
+
+    <label>Portfolio URL</label>
+    <input type="url" name="portfolioUrl" value="<%= user.portfolio_url || '' %>">
+
+    <button type="submit">Save Changes</button>
+  </form>
+
+  <p><a href="/profile">Cancel</a></p>
+</section>
+
+<%- include('../partials/footer') %>

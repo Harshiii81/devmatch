@@ -1,0 +1,41 @@
+<%- include('../partials/header') %>
+
+<section class="form-section">
+  <h2>Create a New Project</h2>
+
+  <% if (error) { %>
+    <p class="error-msg"><%= error %></p>
+  <% } %>
+
+  <form action="/projects/create" method="POST">
+    <label>Project Title</label>
+    <input type="text" name="title" required>
+
+    <label>Description</label>
+    <textarea name="description" required></textarea>
+
+    <label>Required Skills (comma-separated)</label>
+    <input type="text" name="requiredSkills" placeholder="React, Node.js, MySQL">
+
+    <label>Team Size (max members)</label>
+    <input type="number" name="teamSize" min="1" required>
+
+    <label>Duration</label>
+    <input type="text" name="duration" placeholder="e.g. 4 weeks">
+
+    <label>Project Type</label>
+    <select name="projectType">
+      <option value="Hackathon">Hackathon</option>
+      <option value="Open Source">Open Source</option>
+      <option value="Startup Idea">Startup Idea</option>
+      <option value="Learning Project">Learning Project</option>
+    </select>
+
+    <label>Commitment / Availability Needed</label>
+    <input type="text" name="commitment" placeholder="e.g. 5 hrs/week">
+
+    <button type="submit">Create Project</button>
+  </form>
+</section>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,47 @@
+<%- include('../partials/header') %>
+
+<section class="form-section">
+  <h2><%= project.title %></h2>
+  <p><strong>Posted by:</strong> <%= project.owner_name %></p>
+  <p><strong>Type:</strong> <%= project.project_type || 'Not specified' %></p>
+  <p><strong>Description:</strong><br><%= project.description %></p>
+  <p><strong>Required Skills:</strong> <%= project.required_skills || 'None listed' %></p>
+  <p><strong>Team:</strong> <%= project.current_team_size %> / <%= project.team_size %> members</p>
+  <p><strong>Duration:</strong> <%= project.duration || 'Not specified' %></p>
+  <p><strong>Commitment:</strong> <%= project.commitment || 'Not specified' %></p>
+
+  <hr>
+  <h3>Team Members</h3>
+  <ul>
+    <li><strong><%= project.owner_name %></strong> — Owner / Team Lead</li>
+    <% members.forEach(member => { %>
+      <li>
+        <strong><%= member.name %></strong> — <%= member.role %>
+        <% if (member.skills) { %>(<%= member.skills %>)<% } %>
+      </li>
+    <% }) %>
+  </ul>
+
+  <hr>
+  <% if (typeof userLoggedIn !== 'undefined' && userLoggedIn) { %>
+    <% if (userId === project.owner_id) { %>
+      <p><a href="/projects/<%= project.id %>/applications">View Applications</a></p>
+      <p><a href="/projects/<%= project.id %>/edit">Edit Project</a></p>
+    <% } else if (userApplication) { %>
+      <p><strong>Your application status:</strong> <%= userApplication.status %></p>
+    <% } else if (isTeamFull) { %>
+      <p>This team is full and no longer accepting applications.</p>
+    <% } else { %>
+      <h3>Apply to this project</h3>
+      <form action="/projects/<%= project.id %>/apply" method="POST">
+        <label>Message to the project owner</label>
+        <textarea name="message" placeholder="Why do you want to join?"></textarea>
+        <button type="submit">Apply</button>
+      </form>
+    <% } %>
+  <% } else { %>
+    <p><a href="/login">Log in</a> to apply to this project.</p>
+  <% } %>
+</section>
+
+<%- include('../partials/footer') %>

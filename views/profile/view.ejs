@@ -1,0 +1,51 @@
+<%- include('../partials/header') %>
+
+<section class="form-section">
+  <h2><%= user.name %></h2>
+  <p><strong>Experience:</strong> <%= user.experience_level || 'Not specified' %></p>
+  <p><strong>Bio:</strong> <%= user.bio || 'No bio yet.' %></p>
+  <p><strong>Skills:</strong> <%= user.skills || 'None listed' %></p>
+  <p><strong>Interests:</strong> <%= user.interests || 'None listed' %></p>
+  <p><strong>Availability:</strong> <%= user.availability || 'Not specified' %></p>
+  <p><strong>GitHub:</strong>
+    <% if (user.github_url) { %>
+      <a href="<%= user.github_url %>" target="_blank"><%= user.github_url %></a>
+    <% } else { %>
+      Not provided
+    <% } %>
+  </p>
+  <p><strong>Portfolio:</strong>
+    <% if (user.portfolio_url) { %>
+      <a href="<%= user.portfolio_url %>" target="_blank"><%= user.portfolio_url %></a>
+    <% } else { %>
+      Not provided
+    <% } %>
+  </p>
+
+  <p><a href="/profile/edit">Edit Profile</a></p>
+
+  <hr>
+  <h3>Projects I Created</h3>
+  <% if (createdProjects.length === 0) { %>
+    <p>You haven't created any projects yet.</p>
+  <% } else { %>
+    <ul>
+      <% createdProjects.forEach(p => { %>
+        <li><a href="/projects/<%= p.id %>"><%= p.title %></a> (<%= p.project_type || 'N/A' %>)</li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <h3>Projects I Joined</h3>
+  <% if (joinedProjects.length === 0) { %>
+    <p>You haven't joined any projects yet.</p>
+  <% } else { %>
+    <ul>
+      <% joinedProjects.forEach(p => { %>
+        <li><a href="/projects/<%= p.id %>"><%= p.title %></a> — <%= p.role %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+</section>
+
+<%- include('../partials/footer') %>

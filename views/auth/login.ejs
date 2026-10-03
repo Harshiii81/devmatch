@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+
+<section class="form-section">
+  <h2>Log in to DevMatch</h2>
+
+  <% if (error) { %>
+    <p class="error-msg"><%= error %></p>
+  <% } %>
+
+  <form action="/login" method="POST">
+    <label>Email</label>
+    <input type="email" name="email" required>
+
+    <label>Password</label>
+    <input type="password" name="password" required>
+
+    <button type="submit">Log In</button>
+  </form>
+
+  <p>Don't have an account? <a href="/register">Register here</a>.</p>
+</section>
+
+<%- include('../partials/footer') %>

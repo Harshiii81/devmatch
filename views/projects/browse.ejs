@@ -1,0 +1,41 @@
+<%- include('../partials/header') %>
+
+<section class="form-section">
+  <h2>Browse Projects</h2>
+
+  <form action="/projects" method="GET" class="filter-form">
+    <label>Skill</label>
+    <input type="text" name="skill" value="<%= filters.skill %>" placeholder="e.g. React">
+
+    <label>Project Type</label>
+    <select name="projectType">
+      <option value="">All Types</option>
+      <option value="Hackathon" <%= filters.projectType === 'Hackathon' ? 'selected' : '' %>>Hackathon</option>
+      <option value="Open Source" <%= filters.projectType === 'Open Source' ? 'selected' : '' %>>Open Source</option>
+      <option value="Startup Idea" <%= filters.projectType === 'Startup Idea' ? 'selected' : '' %>>Startup Idea</option>
+      <option value="Learning Project" <%= filters.projectType === 'Learning Project' ? 'selected' : '' %>>Learning Project</option>
+    </select>
+
+    <button type="submit">Search</button>
+  </form>
+</section>
+
+<section class="project-grid">
+  <% if (projects.length === 0) { %>
+    <p>No projects found matching your search.</p>
+  <% } else { %>
+    <% projects.forEach(project => { %>
+      <div class="project-card">
+        <h3><a href="/projects/<%= project.id %>"><%= project.title %></a></h3>
+        <p><%= project.description.substring(0, 100) %><%= project.description.length > 100 ? '...' : '' %></p>
+        <p><strong>Skills:</strong> <%= project.required_skills || 'None listed' %></p>
+        <p><strong>Team:</strong> <%= project.current_team_size %> / <%= project.team_size %></p>
+        <p><strong>Type:</strong> <%= project.project_type || 'Not specified' %></p>
+        <p><strong>Duration:</strong> <%= project.duration || 'Not specified' %></p>
+        <p><strong>Posted by:</strong> <%= project.owner_name %></p>
+      </div>
+    <% }) %>
+  <% } %>
+</section>
+
+<%- include('../partials/footer') %>

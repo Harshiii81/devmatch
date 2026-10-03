@@ -1,0 +1,28 @@
+<%- include('../partials/header') %>
+
+<section class="form-section">
+  <h2>Live Project Search (via REST API)</h2>
+  <p>This page fetches data from <code>/api/projects</code> using JavaScript — no page reload.</p>
+
+  <label>Skill</label>
+  <input type="text" id="skillInput" placeholder="e.g. React">
+
+  <label>Project Type</label>
+  <select id="typeInput">
+    <option value="">All Types</option>
+    <option value="Hackathon">Hackathon</option>
+    <option value="Open Source">Open Source</option>
+    <option value="Startup Idea">Startup Idea</option>
+    <option value="Learning Project">Learning Project</option>
+  </select>
+
+  <button id="searchBtn">Search</button>
+</section>
+
+<section class="project-grid" id="resultsContainer">
+  <p>Loading projects...</p>
+</section>
+
+<script src="/js/liveSearch.js"></script>
+
+<%- include('../partials/footer') %>

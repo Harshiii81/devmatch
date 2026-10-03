@@ -1,0 +1,32 @@
+<%- include('../partials/header') %>
+
+<section class="form-section">
+  <h2>Applications for "<%= project.title %>"</h2>
+
+  <% if (applications.length === 0) { %>
+    <p>No applications yet.</p>
+  <% } else { %>
+    <% applications.forEach(app => { %>
+      <div class="project-card">
+        <p><strong><%= app.applicant_name %></strong> (<%= app.applicant_email %>)</p>
+        <p><strong>Experience:</strong> <%= app.applicant_experience || 'Not specified' %></p>
+        <p><strong>Skills:</strong> <%= app.applicant_skills || 'None listed' %></p>
+        <p><strong>Message:</strong> <%= app.message || 'No message provided.' %></p>
+        <p><strong>Status:</strong> <%= app.status %></p>
+
+        <% if (app.status === 'pending') { %>
+          <form action="/applications/<%= app.id %>/respond" method="POST" style="display:inline;">
+            <input type="hidden" name="status" value="accepted">
+            <button type="submit">Accept</button>
+          </form>
+          <form action="/applications/<%= app.id %>/respond" method="POST" style="display:inline;">
+            <input type="hidden" name="status" value="rejected">
+            <button type="submit">Reject</button>
+          </form>
+        <% } %>
+      </div>
+    <% }) %>
+  <% } %>
+</section>
+
+<%- include('../partials/footer') %>

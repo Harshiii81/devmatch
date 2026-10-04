@@ -35,3 +35,21 @@ Many students and developers have project ideas but struggle to find people with
 | Version Control | Git + GitHub |
 
 ## Architecture
+
+Session-based authentication was chosen over JWT because DevMatch is a traditional server-rendered EJS application, not a decoupled frontend/backend — sessions are the simpler, more natural fit for this architecture.
+
+## Database Schema
+
+Four tables: `users`, `projects`, `applications`, `project_members`, with foreign keys and `ON DELETE CASCADE` to maintain referential integrity. Full schema in `/schema.sql`.
+
+## API Endpoints
+
+| Method | Endpoint | Purpose | Auth |
+|---|---|---|---|
+| GET | `/api/projects` | List/search projects | No |
+| GET | `/api/projects/:id` | Single project details | No |
+| POST | `/api/projects` | Create project via API | Yes |
+
+Plus full server-rendered routes for auth, profiles, projects, and applications — see `/routes`.
+
+## Installation & Local Setup

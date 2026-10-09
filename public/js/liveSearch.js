@@ -1,5 +1,15 @@
 // public/js/liveSearch.js — fetches and renders projects from our own REST API
 
+// Turns special characters into harmless text, so project data can never run as code
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 async function fetchAndRenderProjects(skill = '', projectType = '') {
   const container = document.getElementById('resultsContainer');
   container.innerHTML = '<p>Loading projects...</p>';
@@ -22,16 +32,21 @@ async function fetchAndRenderProjects(skill = '', projectType = '') {
       return;
     }
 
-    container.innerHTML = data.projects.map(project => `
+    container.innerHTML = data.projects.map(project => {
+      const description = project.description || '';
+      const shortDescription = description.substring(0, 100) + (description.length > 100 ? '...' : '');
+
+      return `
       <div class="project-card">
-        <h3><a href="/projects/${project.id}">${project.title}</a></h3>
-        <p>${project.description.substring(0, 100)}${project.description.length > 100 ? '...' : ''}</p>
-        <p><strong>Skills:</strong> ${project.required_skills || 'None listed'}</p>
-        <p><strong>Team:</strong> ${project.current_team_size} / ${project.team_size}</p>
-        <p><strong>Type:</strong> ${project.project_type || 'Not specified'}</p>
-        <p><strong>Posted by:</strong> ${project.owner_name}</p>
+        <h3><a href="/projects/${escapeHtml(project.id)}">${escapeHtml(project.title)}</a></h3>
+        <p>${escapeHtml(shortDescription)}</p>
+        <p><strong>Skills:</strong> ${escapeHtml(project.required_skills || 'None listed')}</p>
+        <p><strong>Team:</strong> ${escapeHtml(project.current_team_size)} / ${escapeHtml(project.team_size)}</p>
+        <p><strong>Type:</strong> ${escapeHtml(project.project_type || 'Not specified')}</p>
+        <p><strong>Posted by:</strong> <a class="owner-link" href="/users/${escapeHtml(project.owner_id)}">${escapeHtml(project.owner_name)}</a></p>
       </div>
-    `).join('');
+    `;
+    }).join('');
   } catch (err) {
     container.innerHTML = '<p>Failed to load projects. Please try again.</p>';
   }

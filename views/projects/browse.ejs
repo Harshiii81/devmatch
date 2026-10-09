@@ -32,7 +32,7 @@
         <p><strong>Team:</strong> <%= project.current_team_size %> / <%= project.team_size %></p>
         <p><strong>Type:</strong> <%= project.project_type || 'Not specified' %></p>
         <p><strong>Duration:</strong> <%= project.duration || 'Not specified' %></p>
-        <p><strong>Posted by:</strong> <%= project.owner_name %></p>
+        <p><strong>Posted by:</strong> <a class="owner-link" href="/users/<%= project.owner_id %>"><%= project.owner_name %></a></p>
       </div>
     <% }) %>
   <% } %>

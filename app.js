@@ -10,6 +10,7 @@ const db = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const profileRoutes = require('./routes/profileRoutes');
+const userRoutes = require('./routes/userRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
@@ -53,6 +54,7 @@ app.get('/', (req, res) => {
 app.use('/', authRoutes);
 app.use('/', dashboardRoutes);
 app.use('/', profileRoutes);
+app.use('/', userRoutes);
 app.use('/', projectRoutes);
 app.use('/', applicationRoutes);
 app.use('/', notificationRoutes);

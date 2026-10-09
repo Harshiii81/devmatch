@@ -2,7 +2,7 @@
 
 <section class="form-section">
   <h2><%= project.title %></h2>
-  <p><strong>Posted by:</strong> <%= project.owner_name %></p>
+  <p><strong>Posted by:</strong> <a href="/users/<%= project.owner_id %>"><%= project.owner_name %></a></p>
   <p><strong>Type:</strong> <%= project.project_type || 'Not specified' %></p>
   <p><strong>Description:</strong><br><%= project.description %></p>
   <p><strong>Required Skills:</strong> <%= project.required_skills || 'None listed' %></p>
@@ -12,15 +12,25 @@
 
   <hr>
   <h3>Team Members</h3>
-  <ul>
-    <li><strong><%= project.owner_name %></strong> — Owner / Team Lead</li>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="avatar avatar-sm"><%= project.owner_name.charAt(0).toUpperCase() %></div>
+      <div>
+        <a href="/users/<%= project.owner_id %>"><%= project.owner_name %></a>
+        <div><span class="badge bg-dark">Owner / Team Lead</span></div>
+      </div>
+    </div>
     <% members.forEach(member => { %>
-      <li>
-        <strong><%= member.name %></strong> — <%= member.role %>
-        <% if (member.skills) { %>(<%= member.skills %>)<% } %>
-      </li>
+      <div class="team-card">
+        <div class="avatar avatar-sm"><%= member.name.charAt(0).toUpperCase() %></div>
+        <div>
+          <a href="/users/<%= member.user_id %>"><%= member.name %></a>
+          <div><span class="badge bg-secondary"><%= member.role %></span></div>
+          <% if (member.skills) { %><small class="text-muted"><%= member.skills %></small><% } %>
+        </div>
+      </div>
     <% }) %>
-  </ul>
+  </div>
 
   <hr>
   <% if (typeof userLoggedIn !== 'undefined' && userLoggedIn) { %>

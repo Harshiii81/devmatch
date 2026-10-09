@@ -1,0 +1,84 @@
+<%- include('../partials/header') %>
+
+<%
+  const initial = profileUser.name ? profileUser.name.charAt(0).toUpperCase() : '?';
+  const skillList = (profileUser.skills || '').split(',').map(s => s.trim()).filter(Boolean);
+  const interestList = (profileUser.interests || '').split(',').map(s => s.trim()).filter(Boolean);
+%>
+
+<section class="profile-card">
+  <div class="profile-header">
+    <div class="avatar"><%= initial %></div>
+    <div>
+      <h2 class="mb-1"><%= profileUser.name %></h2>
+      <span class="badge bg-dark"><%= profileUser.experience_level || 'Experience not specified' %></span>
+      <% if (isOwnProfile) { %>
+        <a href="/profile/edit" class="ms-2 small">Edit my profile</a>
+      <% } %>
+      <div class="small text-muted mt-1">Member since <%= new Date(profileUser.created_at).toLocaleDateString() %></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <h5>About</h5>
+  <p><%= profileUser.bio || 'No bio yet.' %></p>
+
+  <h5>Skills</h5>
+  <p>
+    <% if (skillList.length === 0) { %>
+      <span class="text-muted">None listed</span>
+    <% } else { %>
+      <% skillList.forEach(skill => { %><span class="skill-tag"><%= skill %></span><% }) %>
+    <% } %>
+  </p>
+
+  <h5>Interests</h5>
+  <p>
+    <% if (interestList.length === 0) { %>
+      <span class="text-muted">None listed</span>
+    <% } else { %>
+      <% interestList.forEach(interest => { %><span class="skill-tag"><%= interest %></span><% }) %>
+    <% } %>
+  </p>
+
+  <h5>Availability</h5>
+  <p><%= profileUser.availability || 'Not specified' %></p>
+
+  <% if (githubUrl || portfolioUrl) { %>
+    <div class="mb-3">
+      <% if (githubUrl) { %>
+        <a href="<%= githubUrl %>" target="_blank" rel="noopener noreferrer" class="btn btn-dark btn-sm">GitHub</a>
+      <% } %>
+      <% if (portfolioUrl) { %>
+        <a href="<%= portfolioUrl %>" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm">Portfolio</a>
+      <% } %>
+    </div>
+  <% } %>
+
+  <hr>
+
+  <h5>Projects Created</h5>
+  <% if (createdProjects.length === 0) { %>
+    <p class="text-muted">No projects created yet.</p>
+  <% } else { %>
+    <ul>
+      <% createdProjects.forEach(p => { %>
+        <li><a href="/projects/<%= p.id %>"><%= p.title %></a> (<%= p.project_type || 'N/A' %>)</li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <h5>Projects Joined</h5>
+  <% if (joinedProjects.length === 0) { %>
+    <p class="text-muted">Hasn't joined any projects yet.</p>
+  <% } else { %>
+    <ul>
+      <% joinedProjects.forEach(p => { %>
+        <li><a href="/projects/<%= p.id %>"><%= p.title %></a> — <%= p.role %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+</section>
+
+<%- include('../partials/footer') %>

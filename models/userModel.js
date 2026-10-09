@@ -31,6 +31,17 @@ async function findUserById(id) {
   return rows[0];
 }
 
+// Public version: deliberately does NOT select email or password_hash
+async function findPublicProfileById(id) {
+  const [rows] = await db.query(
+    `SELECT id, name, experience_level, bio, skills, interests, availability,
+            github_url, portfolio_url, created_at
+     FROM users WHERE id = ?`,
+    [id]
+  );
+  return rows[0];
+}
+
 async function updateUser(id, userData) {
   const {
     name, experienceLevel, bio, skills, interests, availability, githubUrl, portfolioUrl
@@ -44,4 +55,4 @@ async function updateUser(id, userData) {
   );
 }
 
-module.exports = { createUser, findUserByEmail, findUserById, updateUser };
+module.exports = { createUser, findUserByEmail, findUserById, findPublicProfileById, updateUser };

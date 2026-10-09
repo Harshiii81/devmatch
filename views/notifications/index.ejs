@@ -1,0 +1,20 @@
+<%- include('../partials/header') %>
+
+<section class="form-section">
+  <h2>Notifications</h2>
+
+  <% if (notifications.length === 0) { %>
+    <p>You have no notifications yet.</p>
+  <% } else { %>
+    <div class="list-group">
+      <% notifications.forEach(n => { %>
+        <a href="<%= n.link || '#' %>" class="list-group-item list-group-item-action <%= n.is_read ? '' : 'list-group-item-warning' %>">
+          <div><%= n.message %></div>
+          <small class="text-muted"><%= new Date(n.created_at).toLocaleString() %></small>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('../partials/footer') %>

@@ -6,6 +6,7 @@ const {
   findApplicationById, updateApplicationStatus
 } = require('../models/applicationModel');
 const { addProjectMember } = require('../models/projectMemberModel');
+const { createNotification } = require('../models/notificationModel');
 
 // Apply to a project
 async function applyToProject(req, res) {
@@ -32,6 +33,14 @@ async function applyToProject(req, res) {
   }
 
   await createApplication(projectId, applicantId, message);
+
+  // Notify the project owner
+  await createNotification(
+    project.owner_id,
+    `${req.session.userName} applied to your project "${project.title}"`,
+    `/projects/${projectId}/applications`
+  );
+
   res.redirect(`/projects/${projectId}`);
 }
 
@@ -72,7 +81,6 @@ async function respondToApplication(req, res) {
     return res.status(403).send('You are not authorized to do this.');
   }
 
-  // Only pending applications can be changed (prevents accepting twice)
   if (application.status !== 'pending') {
     return res.status(400).send('This application has already been answered.');
   }
@@ -85,6 +93,13 @@ async function respondToApplication(req, res) {
   }
 
   await updateApplicationStatus(applicationId, status);
+
+  // Notify the applicant about the decision
+  await createNotification(
+    application.applicant_id,
+    `Your application to "${project.title}" was ${status}`,
+    `/projects/${application.project_id}`
+  );
 
   res.redirect(`/projects/${application.project_id}/applications`);
 }

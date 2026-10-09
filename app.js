@@ -12,7 +12,9 @@ const dashboardRoutes = require('./routes/dashboardRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 const apiRoutes = require('./routes/apiRoutes');
+const { countUnread } = require('./models/notificationModel');
 const { notFoundHandler, globalErrorHandler } = require('./middleware/errorMiddleware');
 
 app.set('view engine', 'ejs');
@@ -28,9 +30,19 @@ app.use(session({
   cookie: { maxAge: 1000 * 60 * 60 * 2 }
 }));
 
-app.use((req, res, next) => {
+// Makes login info and the unread notification count available in every EJS view
+app.use(async (req, res, next) => {
   res.locals.userLoggedIn = !!req.session.userId;
   res.locals.userId = req.session.userId || null;
+  res.locals.unreadCount = 0;
+
+  if (req.session.userId) {
+    try {
+      res.locals.unreadCount = await countUnread(req.session.userId);
+    } catch (err) {
+      console.error('Could not load notification count:', err.message);
+    }
+  }
   next();
 });
 
@@ -43,10 +55,10 @@ app.use('/', dashboardRoutes);
 app.use('/', profileRoutes);
 app.use('/', projectRoutes);
 app.use('/', applicationRoutes);
+app.use('/', notificationRoutes);
 app.use('/api', apiRoutes);
 
-// These two must be LAST — Express checks middleware/routes top-to-bottom,
-// so anything unmatched above falls through to the 404 handler here.
+// These two must be LAST
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
 

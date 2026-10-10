@@ -3,12 +3,11 @@
 <%
   const skillList = (profileUser.skills || '').split(',').map(s => s.trim()).filter(Boolean);
   const interestList = (profileUser.interests || '').split(',').map(s => s.trim()).filter(Boolean);
-  const bigAvatar = githubAvatar(profileUser.github_url, 460);
 %>
 
 <section class="profile-card">
   <div class="profile-header">
-    <%- include('../partials/avatar', { name: profileUser.name, githubUrl: profileUser.github_url, size: 'lg', zoom: true }) %>
+    <%- include('../partials/avatar', { name: profileUser.name, githubUrl: profileUser.github_url }) %>
     <div>
       <h2 class="mb-1"><%= profileUser.name %></h2>
       <span class="badge bg-dark"><%= profileUser.experience_level || 'Experience not specified' %></span>
@@ -80,18 +79,5 @@
     </ul>
   <% } %>
 </section>
-
-<% if (bigAvatar) { %>
-  <!-- Kept outside the animated card so the popup positions correctly -->
-  <div class="modal fade" id="avatarModal" tabindex="-1" aria-label="<%= profileUser.name %>'s profile picture" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content p-3 text-center">
-        <img src="<%= bigAvatar %>" alt="<%= profileUser.name %>'s profile picture" class="img-fluid rounded">
-        <div class="mt-2 fw-bold"><%= profileUser.name %></div>
-        <button type="button" class="btn btn-dark btn-sm mt-3" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-<% } %>
 
 <%- include('../partials/footer') %>

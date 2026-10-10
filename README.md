@@ -1,99 +1,217 @@
 # DevMatch
 
-**A platform to help developers and students find teammates for projects, hackathons, and technical collaborations.**
+A full-stack web platform that helps developers and students find teammates for projects, hackathons, and technical collaborations.
 
-Built as part of the **Cognifyz Technologies Full Stack Development Internship**.
+**Developed as part of the Cognifyz Technologies Full Stack Development Internship.**
 
-🔗 **Live App:** https://proud-spirit-production-6770.up.railway.app
-🔗 **GitHub:** https://github.com/Harshiii81/devmatch
+- **Live Application:** https://proud-spirit-production-6770.up.railway.app
+- **GitHub Repository:** https://github.com/Harshiii81/devmatch
 
----
+## 1. Project Overview
 
-## Problem Statement
+DevMatch is a developer collaboration platform designed to help students and developers connect with people who share similar technical interests. Users can create profiles, publish project ideas, discover available projects, apply to join teams, and manage project applications.
 
-Many students and developers have project ideas but struggle to find people with the right technical skills, interests, and availability to build them. DevMatch provides a structured platform where users can create developer profiles, post project ideas, discover projects that match their skills, and apply to join teams.
+The platform aims to simplify team formation for academic projects, hackathons, and personal development projects.
 
-## Features
+## 2. Problem Statement
 
-- **User Authentication** — Registration, login, logout, session-based auth, bcrypt password hashing
-- **Developer Profiles** — Skills, experience level, bio, interests, availability, GitHub/portfolio links
-- **Project Creation & Management** — Create, edit, and delete project postings (owner-only)
-- **Browse & Search** — Filter projects by skill and project type
-- **Applications** — Apply to projects, view applicants, accept/reject
-- **Team Formation** — Automatic team membership on acceptance, team capacity limits
-- **REST API** — JSON endpoints for projects, consumed by a live-search frontend page using fetch()
+Many students and developers have innovative project ideas but struggle to find collaborators with the right technical skills, interests, and availability. Finding suitable teammates can be difficult when opportunities are scattered across different platforms.
 
-## Tech Stack
+DevMatch addresses this problem by providing a centralized platform where users can showcase their skills, discover projects, connect with potential teammates, and manage collaboration opportunities.
+
+## 3. Key Features
+
+- **User Authentication:** Registration, login, logout, session-based authentication, and bcrypt password hashing.
+- **Developer Profiles:** Profiles containing skills, experience level, biography, interests, availability, and GitHub or portfolio links.
+- **Project Management:** Create, edit, and delete project postings, with ownership checks for project management.
+- **Project Discovery:** Browse and filter projects by skills and project type.
+- **Application Management:** Apply to projects, review applicants, and accept or reject applications.
+- **Team Formation:** Add accepted applicants to project teams while enforcing team capacity limits.
+- **Notifications:** Access notification-related features available in the application.
+- **REST API:** JSON endpoints for retrieving and creating project data.
+- **Live Search:** Fetch project data from the API and dynamically update search results without a full page reload.
+- **Responsive Interface:** A web interface built using HTML, CSS, Bootstrap 5, JavaScript, and EJS templates.
+
+## 4. Technology Stack
 
 | Layer | Technology |
 |---|---|
-| Frontend | HTML, CSS, Bootstrap 5, JavaScript, EJS (server-side rendering) |
+| Frontend | HTML5, CSS3, Bootstrap 5, JavaScript |
+| Templating | EJS |
 | Backend | Node.js, Express.js |
-| Database | MySQL (hosted on Railway) |
-| Authentication | express-session + bcrypt |
-| Deployment | Railway (app + database) |
-| Version Control | Git + GitHub |
+| Database | MySQL |
+| Authentication | express-session, bcrypt |
+| Database Hosting | Railway |
+| Application Deployment | Railway |
+| Version Control | Git, GitHub |
 
-## Architecture
+## 5. Application Architecture
 
-Session-based authentication was chosen over JWT because DevMatch is a traditional server-rendered EJS application, not a decoupled frontend/backend — sessions are the simpler, more natural fit for this architecture.
+DevMatch follows a server-rendered full-stack web architecture.
 
-## Database Schema
+- **Frontend:** EJS templates generate HTML pages, while CSS, Bootstrap, and JavaScript provide styling and interactivity.
+- **Backend:** Express.js handles HTTP requests, routing, application logic, and authentication.
+- **Database:** MySQL stores user profiles, project information, applications, and project membership records.
+- **Authentication:** Express sessions maintain logged-in user state, while bcrypt hashes passwords.
+- **API Communication:** JavaScript's Fetch API communicates with project endpoints and updates search results dynamically.
+- **Deployment:** Railway hosts the deployed application and database configuration.
 
-Four tables: users, projects, applications, project_members, with foreign keys and ON DELETE CASCADE to maintain referential integrity. Full schema in /schema.sql.
+Session-based authentication was selected because it fits the server-rendered EJS architecture and allows the application to maintain user login state across requests.
 
-## API Endpoints
+## 6. Database Schema
 
-| Method | Endpoint | Purpose | Auth |
+The application uses four primary database tables:
+
+1. **users** — stores user account and developer profile information.
+2. **projects** — stores project details and ownership information.
+3. **applications** — stores applications submitted by developers to join projects.
+4. **project_members** — stores project team membership information.
+
+Foreign-key relationships and `ON DELETE CASCADE` constraints are used where defined in the database schema to maintain referential integrity.
+
+The complete database schema is available in `schema.sql`.
+
+## 7. REST API Endpoints
+
+The project exposes the following documented API endpoints:
+
+| Method | Endpoint | Purpose | Authentication |
 |---|---|---|---|
-| GET | /api/projects | List/search projects | No |
-| GET | /api/projects/:id | Single project details | No |
-| POST | /api/projects | Create project via API | Yes |
+| GET | `/api/projects` | Retrieve and search projects | Not required |
+| GET | `/api/projects/:id` | Retrieve details for a specific project | Not required |
+| POST | `/api/projects` | Create a project through the API | Required |
 
-Plus full server-rendered routes for auth, profiles, projects, and applications — see /routes.
+The application also provides server-rendered routes for authentication, developer profiles, project management, and project applications.
 
-## Installation & Local Setup
+The API route definitions are available in `routes/`.
 
-Clone the repository, then install dependencies:
+## 8. Installation and Local Setup
 
-    git clone https://github.com/Harshiii81/devmatch.git
-    cd devmatch
-    npm install
+### Prerequisites
 
-Create a .env file (see .env.example for the required keys):
+Install the following software before running the project locally:
 
-    PORT=3000
-    DB_HOST=localhost
-    DB_USER=root
-    DB_PASSWORD=your_mysql_password
-    DB_NAME=devmatch
-    SESSION_SECRET=your_random_secret_string
+- Node.js and npm
+- MySQL Server
+- Git
 
-Create the database and tables using the SQL in /schema.sql, then run:
+### Step 1: Clone the repository
 
-    npm run dev
+```bash
+git clone https://github.com/Harshiii81/devmatch.git
+cd devmatch
+```
 
-Visit http://localhost:3000.
+### Step 2: Install dependencies
 
-## Testing
+```bash
+npm install
+```
 
-A full manual testing pass (34 test cases across authentication, profiles, projects, applications, the API, and error handling) was completed with all tests passing.
+### Step 3: Configure environment variables
 
-## Future Improvements
+Create a `.env` file in the project root directory. Use `.env.example` as a reference if it is included in the repository.
 
-- Email verification on registration
-- Real-time notifications for application status changes
-- Pagination for large project lists
-- OAuth login (Google/GitHub)
+Example configuration:
 
-## Cognifyz Task Mapping
+```env
+PORT=3000
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=devmatch
+SESSION_SECRET=your_random_secret_string
+```
 
-| Task | Requirement | DevMatch Implementation | Evidence |
+Replace the example values with your local MySQL credentials and a secure, randomly generated session secret.
+
+**Security note:** Never commit your actual `.env` file, database password, or session secret to GitHub.
+
+### Step 4: Create the database
+
+Create the `devmatch` database in MySQL and execute the SQL statements in `schema.sql` to create the required tables and relationships.
+
+Ensure that the database credentials in `.env` match your local MySQL configuration.
+
+### Step 5: Start the application
+
+```bash
+npm run dev
+```
+
+This command assumes the project defines a `dev` script in `package.json`.
+
+### Step 6: Open the application
+
+Visit:
+
+http://localhost:3000
+
+The application should be available locally once the server starts successfully and the database connection is established.
+
+## 9. Testing
+
+The project was manually tested across authentication, developer profiles, project management, applications, API functionality, and error handling.
+
+The development testing checklist covered 34 test cases, with all tests reported as passing.
+
+Testing areas included:
+
+- User registration and login.
+- Session handling and logout.
+- Developer profile management.
+- Project creation, editing, and deletion.
+- Project discovery and search.
+- Application submission and review.
+- Team membership and capacity restrictions.
+- API responses and error handling.
+- Authentication and authorization checks.
+
+## 10. Cognifyz Internship Task Mapping
+
+The following table maps the implemented functionality to the corresponding Cognifyz Full Stack Development internship tasks.
+
+| Task | Internship Requirement | DevMatch Implementation | Relevant Files |
 |---|---|---|---|
-| Task 1 (Beginner) | HTML forms, Node/Express server, server-side endpoints, EJS rendering | Registration, login, and project-creation forms; Express server with dedicated route files; every page rendered server-side via EJS with shared header/footer partials | routes/, views/, app.js |
-| Task 2 (Beginner) | Complex forms/interactions, client-side JS validation, server-side validation, temporary data handling | Registration form validated both in-browser (public/js/validation.js) and on the server (controllers/authController.js); session (express-session) used for temporary logged-in state | public/js/validation.js, controllers/authController.js |
-| Task 3 (Intermediate) | Advanced CSS, responsive design, multi-section layouts, transitions/animations, Bootstrap | Bootstrap 5 navbar/grid, responsive 3-column landing page, hover/focus transitions on cards and form inputs, mobile hamburger menu | views/partials/header.ejs, public/css/style.css |
-| Task 5 (Advanced) | RESTful API endpoints, CRUD, frontend interacting with own API, fetching/displaying API data | /api/projects (GET, POST) built with Express; /projects/live-search page uses fetch() to call this API and dynamically renders results with no page reload | routes/apiRoutes.js, public/js/liveSearch.js |
-| Task 6 (Advanced) | MySQL integration, user authentication, secure/authorized API endpoints | MySQL schema with foreign keys (hosted on Railway in production); bcrypt password hashing; session-based auth; ownership checks on project edit/delete and application accept/reject | config/db.js, models/, middleware/authMiddleware.js, controllers/applicationController.js |
+| Task 1 — Beginner | HTML forms, Express server, server-side endpoints, EJS rendering | Registration, login, and project forms; Express routing; server-rendered EJS pages | `app.js`, `routes/`, `views/` |
+| Task 2 — Beginner | Form interaction, client-side and server-side validation, temporary server-side state | Browser-side form validation, server-side authentication validation, session-based login state | `public/js/validation.js`, `controllers/authController.js` |
+| Task 3 — Intermediate | Responsive layouts, CSS styling, transitions, Bootstrap | Responsive layouts, Bootstrap components, styled cards and form inputs, mobile navigation | `views/partials/header.ejs`, `public/css/style.css` |
+| Task 5 — Advanced | REST API endpoints, frontend API communication, fetching and displaying data | Project API endpoints and a live-search page using Fetch API | `routes/apiRoutes.js`, `public/js/liveSearch.js` |
+| Task 6 — Advanced | Database integration, authentication, and authorization | MySQL integration, bcrypt password hashing, session authentication, and ownership checks | `config/db.js`, `models/`, `middleware/authMiddleware.js` |
 
-Tasks 4, 7, and 8 were not implemented — 5 of 8 tasks were completed, meeting the internship's minimum requirement, with a deliberate choice to keep the project focused and fully polished rather than partially covering additional tasks.
+**Tasks completed:** 1, 2, 3, 5, and 6.
+
+**Tasks not implemented:** 4, 7, and 8.
+
+These five tasks represent the minimum number specified in the internship instructions, provided the implemented features satisfy the corresponding requirements.
+
+## 11. Future Improvements
+
+Potential enhancements for future versions include:
+
+- Email verification during registration.
+- Real-time notifications for application status changes.
+- Pagination for larger project listings.
+- OAuth authentication through Google or GitHub.
+- Additional API endpoints and automated integration testing.
+
+## 12. Learning Outcomes
+
+Developing DevMatch provided practical experience with:
+
+- Building a full-stack web application using Node.js and Express.js.
+- Rendering dynamic pages using EJS.
+- Integrating a MySQL database with a backend application.
+- Implementing authentication, session management, and password hashing.
+- Developing and consuming REST API endpoints.
+- Implementing validation and access-control checks.
+- Deploying a web application using Railway.
+- Managing source code with Git and GitHub.
+
+## 13. Conclusion
+
+DevMatch demonstrates the development of a full-stack collaboration platform that enables developers and students to discover projects, showcase their skills, and find potential teammates.
+
+The project combines server-side development, database integration, authentication, API communication, and responsive web design into a single application.
+
+Developing this project was a valuable learning experience and an opportunity to apply full-stack development concepts in a practical internship project.

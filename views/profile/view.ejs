@@ -2,7 +2,9 @@
 
 <section class="form-section">
   <div class="profile-header mb-3">
-    <%- include('../partials/avatar', { name: user.name, githubUrl: user.github_url }) %>
+    <a href="/users/<%= user.id %>" title="View my public profile">
+      <%- include('../partials/avatar', { name: user.name, githubUrl: user.github_url }) %>
+    </a>
     <div>
       <h2 class="mb-1"><%= user.name %></h2>
       <a href="/users/<%= user.id %>" class="small">See how others view my profile</a>

@@ -1,14 +1,13 @@
 <%- include('../partials/header') %>
 
 <%
-  const initial = profileUser.name ? profileUser.name.charAt(0).toUpperCase() : '?';
   const skillList = (profileUser.skills || '').split(',').map(s => s.trim()).filter(Boolean);
   const interestList = (profileUser.interests || '').split(',').map(s => s.trim()).filter(Boolean);
 %>
 
 <section class="profile-card">
   <div class="profile-header">
-    <div class="avatar"><%= initial %></div>
+    <%- include('../partials/avatar', { name: profileUser.name, githubUrl: profileUser.github_url }) %>
     <div>
       <h2 class="mb-1"><%= profileUser.name %></h2>
       <span class="badge bg-dark"><%= profileUser.experience_level || 'Experience not specified' %></span>

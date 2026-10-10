@@ -14,7 +14,7 @@
   <h3>Team Members</h3>
   <div class="team-grid">
     <div class="team-card">
-      <div class="avatar avatar-sm"><%= project.owner_name.charAt(0).toUpperCase() %></div>
+      <%- include('../partials/avatar', { name: project.owner_name, githubUrl: project.owner_github_url, size: 'sm' }) %>
       <div>
         <a href="/users/<%= project.owner_id %>"><%= project.owner_name %></a>
         <div><span class="badge bg-dark">Owner / Team Lead</span></div>
@@ -22,7 +22,7 @@
     </div>
     <% members.forEach(member => { %>
       <div class="team-card">
-        <div class="avatar avatar-sm"><%= member.name.charAt(0).toUpperCase() %></div>
+        <%- include('../partials/avatar', { name: member.name, githubUrl: member.github_url, size: 'sm' }) %>
         <div>
           <a href="/users/<%= member.user_id %>"><%= member.name %></a>
           <div><span class="badge bg-secondary"><%= member.role %></span></div>

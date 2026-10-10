@@ -7,8 +7,14 @@
     <p>No applications yet.</p>
   <% } else { %>
     <% applications.forEach(app => { %>
-      <div class="project-card">
-        <p><strong><a href="/users/<%= app.applicant_id %>"><%= app.applicant_name %></a></strong> (<%= app.applicant_email %>)</p>
+      <div class="project-card mb-3">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <%- include('../partials/avatar', { name: app.applicant_name, githubUrl: app.applicant_github_url, size: 'sm' }) %>
+          <div>
+            <strong><a href="/users/<%= app.applicant_id %>"><%= app.applicant_name %></a></strong><br>
+            <small class="text-muted"><%= app.applicant_email %></small>
+          </div>
+        </div>
         <p><strong>Experience:</strong> <%= app.applicant_experience || 'Not specified' %></p>
         <p><strong>Skills:</strong> <%= app.applicant_skills || 'None listed' %></p>
         <p><strong>Message:</strong> <%= app.message || 'No message provided.' %></p>

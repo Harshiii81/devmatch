@@ -22,7 +22,8 @@ async function findExistingApplication(projectId, applicantId) {
 async function findApplicationsByProject(projectId) {
   const [rows] = await db.query(
     `SELECT applications.*, users.name AS applicant_name, users.email AS applicant_email,
-            users.skills AS applicant_skills, users.experience_level AS applicant_experience
+            users.skills AS applicant_skills, users.experience_level AS applicant_experience,
+            users.github_url AS applicant_github_url
      FROM applications
      JOIN users ON applications.applicant_id = users.id
      WHERE applications.project_id = ?

@@ -1,0 +1,13 @@
+<%
+  const isSmall = (typeof size !== 'undefined' && size === 'sm');
+  const initial = (name || '?').charAt(0).toUpperCase();
+  const avatarSrc = githubAvatar(typeof githubUrl !== 'undefined' ? githubUrl : null);
+%>
+<% if (avatarSrc) { %>
+  <img src="<%= avatarSrc %>" alt="<%= name %>'s profile picture" loading="lazy"
+       class="avatar-img <%= isSmall ? 'avatar-sm' : '' %>"
+       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+  <div class="avatar <%= isSmall ? 'avatar-sm' : '' %>" style="display:none;"><%= initial %></div>
+<% } else { %>
+  <div class="avatar <%= isSmall ? 'avatar-sm' : '' %>"><%= initial %></div>
+<% } %>

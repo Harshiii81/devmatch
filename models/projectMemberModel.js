@@ -13,7 +13,7 @@ async function addProjectMember(projectId, userId, role = 'Member') {
 
 async function findMembersByProject(projectId) {
   const [rows] = await db.query(
-    `SELECT project_members.*, users.name, users.skills, users.experience_level
+    `SELECT project_members.*, users.name, users.skills, users.experience_level, users.github_url
      FROM project_members
      JOIN users ON project_members.user_id = users.id
      WHERE project_members.project_id = ?

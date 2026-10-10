@@ -16,6 +16,7 @@ const applicationRoutes = require('./routes/applicationRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const apiRoutes = require('./routes/apiRoutes');
 const { countUnread } = require('./models/notificationModel');
+const { getGithubAvatarUrl } = require('./utils/avatar');
 const { notFoundHandler, globalErrorHandler } = require('./middleware/errorMiddleware');
 
 app.set('view engine', 'ejs');
@@ -31,11 +32,12 @@ app.use(session({
   cookie: { maxAge: 1000 * 60 * 60 * 2 }
 }));
 
-// Makes login info and the unread notification count available in every EJS view
+// Makes login info, the unread notification count and the avatar helper available in every EJS view
 app.use(async (req, res, next) => {
   res.locals.userLoggedIn = !!req.session.userId;
   res.locals.userId = req.session.userId || null;
   res.locals.unreadCount = 0;
+  res.locals.githubAvatar = getGithubAvatarUrl;
 
   if (req.session.userId) {
     try {

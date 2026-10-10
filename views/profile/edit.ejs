@@ -31,7 +31,8 @@
     <input type="text" name="availability" value="<%= user.availability || '' %>">
 
     <label>GitHub URL</label>
-    <input type="url" name="githubUrl" value="<%= user.github_url || '' %>">
+    <input type="url" name="githubUrl" value="<%= user.github_url || '' %>" placeholder="https://github.com/yourusername">
+    <p class="hint text-muted">Your GitHub profile picture is used as your DevMatch profile photo. Use a link like https://github.com/yourusername</p>
 
     <label>Portfolio URL</label>
     <input type="url" name="portfolioUrl" value="<%= user.portfolio_url || '' %>">

@@ -22,7 +22,7 @@ async function createProject(projectData) {
 
 async function findProjectById(id) {
   const [rows] = await db.query(
-    `SELECT projects.*, users.name AS owner_name, ${TEAM_COUNT_SQL}
+    `SELECT projects.*, users.name AS owner_name, users.github_url AS owner_github_url, ${TEAM_COUNT_SQL}
      FROM projects
      JOIN users ON projects.owner_id = users.id
      WHERE projects.id = ?`,
